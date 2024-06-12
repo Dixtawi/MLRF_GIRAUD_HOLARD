@@ -1,1 +1,1 @@
-from library import config  # noqa: F401
+from library import config

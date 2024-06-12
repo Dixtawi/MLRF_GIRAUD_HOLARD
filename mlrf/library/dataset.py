@@ -31,6 +31,6 @@ def load_dataset(data_dir):
 
     return x_train, x_test, y_train, y_test
 
-data_dir = PROCESSED_DATA_DIR + "/cifar-10-batches-py"
+data_dir = PROCESSED_DATA_DIR / "cifar-10-batches-py"
 
 X_train, X_test, y_train, y_test = load_dataset(data_dir)
