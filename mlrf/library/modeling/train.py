@@ -1,30 +1,22 @@
-from pathlib import Path
+import sys
+import os
 
-import typer
-from loguru import logger
-from tqdm import tqdm
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'library')))
 
-from library.config import MODELS_DIR, PROCESSED_DATA_DIR
+import pickle
+import numpy as np
 
-app = typer.Typer()
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
-
-@app.command()
-def main(
-    # ---- REPLACE DEFAULT PATHS AS APPROPRIATE ----
-    features_path: Path = PROCESSED_DATA_DIR / "features.csv",
-    labels_path: Path = PROCESSED_DATA_DIR / "labels.csv",
-    model_path: Path = MODELS_DIR / "model.pkl",
-    # -----------------------------------------
-):
-    # ---- REPLACE THIS WITH YOUR OWN CODE ----
-    logger.info("Training some model...")
-    for i in tqdm(range(10), total=10):
-        if i == 5:
-            logger.info("Something happened for iteration 5.")
-    logger.success("Modeling training complete.")
-    # -----------------------------------------
+from dataset import X_train, X_test, y_train, y_test
 
 
-if __name__ == "__main__":
-    app()
+
+# Créer le modèle Random Forest
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
+
+# Entraîner le modèle
+clf_fitted = clf.fit(X_train, y_train)
+

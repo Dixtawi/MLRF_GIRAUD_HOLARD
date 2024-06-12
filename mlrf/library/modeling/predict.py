@@ -1,30 +1,19 @@
-from pathlib import Path
+import sys
+import os
 
-import typer
-from loguru import logger
-from tqdm import tqdm
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'library')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'modeling')))
 
-from library.config import MODELS_DIR, PROCESSED_DATA_DIR
+import pickle
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
-app = typer.Typer()
+from train import clf_fitted
+from dataset import data_test, labels_test
 
+y_pred = clf_fitted.predict(data_test)
 
-@app.command()
-def main(
-    # ---- REPLACE DEFAULT PATHS AS APPROPRIATE ----
-    features_path: Path = PROCESSED_DATA_DIR / "test_features.csv",
-    model_path: Path = MODELS_DIR / "model.pkl",
-    predictions_path: Path = PROCESSED_DATA_DIR / "test_predictions.csv",
-    # -----------------------------------------
-):
-    # ---- REPLACE THIS WITH YOUR OWN CODE ----
-    logger.info("Performing inference for model...")
-    for i in tqdm(range(10), total=10):
-        if i == 5:
-            logger.info("Something happened for iteration 5.")
-    logger.success("Inference complete.")
-    # -----------------------------------------
-
-
-if __name__ == "__main__":
-    app()
+accuracy = accuracy_score(labels_test, y_pred)
+print(f'Accuracy: {accuracy:.2f}')
