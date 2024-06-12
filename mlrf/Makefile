@@ -3,8 +3,8 @@
 #################################################################################
 
 PROJECT_NAME = mlrf
-PYTHON_VERSION = 3.10
-PYTHON_INTERPRETER = python
+PYTHON_VERSION = 3.8.10
+PYTHON_INTERPRETER = python3
 
 #################################################################################
 # COMMANDS                                                                      #
