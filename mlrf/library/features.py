@@ -1,4 +1,7 @@
 import cv2
+import numpy as np
+from skimage.feature import hog
+from skimage import color
 
 # Assurez-vous que les images sont en format 3D (nombre d'images, hauteur, largeur, canaux)
 # Par exemple, si vos images sont en format (nombre d'images, hauteur * largeur * canaux), 
@@ -32,3 +35,39 @@ def extract_features(images):
         features.append(feature)
     
     return np.array(features)
+
+
+def flatten_image(image):
+    """
+    exemple d'application:
+    X_train_flat = np.array([flatten_image(img) for img in X_train])
+    X_test_flat = np.array([flatten_image(img) for img in X_test])
+    """
+    return image.flatten()
+
+
+def hog_features(image):
+    """
+    exemple d'application:
+    X_train_hog = np.array([hog_features(img) for img in X_train])
+    X_test_hog = np.array([hog_features(img) for img in X_test])
+    """
+    image_gray = color.rgb2gray(image)
+    features, hog_image = hog(image_gray, pixels_per_cell=(8, 8),
+                              cells_per_block=(2, 2), visualize=False, multichannel=False)
+    return features
+
+
+def sift_features(image):
+    """
+    exemple d'application:
+    X_train_sift = [sift_features(img) for img in X_train]
+    X_test_sift = [sift_features(img) for img in X_test]
+    """
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    sift = cv2.SIFT_create()
+    keypoints, descriptors = sift.detectAndCompute(gray, None)
+    if descriptors is not None:
+        return descriptors.flatten()
+    else:
+        return np.zeros(128)
