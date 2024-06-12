@@ -1,0 +1,54 @@
+# État de l'art
+
+## Introduction
+La classification d'images est une tâche essentielle en vision par ordinateur,
+avec des applications allant de la reconnaissance faciale à la détection d'objets
+pour les véhicules autonomes. Cette tâche consiste à attribuer une étiquette 
+de classe à une image parmi un ensemble de classes prédéfinies.
+
+## Base de données CIFAR-10
+La base de données CIFAR-10, créée par Alex Krizhevsky et Geoffrey Hinton, 
+est composée de 60 000 images en couleur de 32x32 pixels réparties en 10 
+classes distinctes. Chaque classe contient 6 000 images, avec 50 000 images 
+destinées à l'entraînement et 10 000 à l'évaluation. CIFAR-10 est largement 
+utilisée pour évaluer les performances des algorithmes de classification d'images.
+
+## Méthodes classiques
+Avant l'avènement des réseaux de neurones, des méthodes comme les SVM, KNN, et 
+PCA étaient couramment utilisées pour la classification d'images. Bien que 
+performantes pour des tâches simples, ces techniques montrent leurs limites 
+face à la complexité et à la variabilité des images réelles.
+
+## Réseaux de neurones convolutionnels (CNN)
+Les CNN ont révolutionné la classification d'images grâce à leur capacité à 
+extraire automatiquement des caractéristiques pertinentes des images. Les 
+architectures comme LeNet, AlexNet, VGG, et ResNet ont montré des performances 
+remarquables sur des bases de données comme CIFAR-10, grâce à des innovations 
+telles que les couches convolutives, les activations non linéaires, et les 
+mécanismes de normalisation.
+
+## Techniques avancées et récents développements
+Des techniques comme le Dropout, la Batch Normalization, et l'augmentation 
+de données ont significativement amélioré les performances des CNN. 
+Les modèles récents, tels que EfficientNet et les Vision Transformers, 
+représentent des avancées majeures, offrant des gains de performance et 
+d'efficacité.
+
+## Évaluations et benchmarks
+Les performances des modèles sur CIFAR-10 sont évaluées à l'aide de métriques 
+comme la précision, le rappel, et le F1-score. Les modèles de pointe atteignent 
+des précisions supérieures à 95%, démontrant l'efficacité des approches modernes 
+de classification d'images.
+
+## Défis et perspectives
+Malgré les avancées, des défis subsistent, tels que le surapprentissage, 
+la nécessité de grandes quantités de données annotées, et les coûts 
+computationnels élevés. Les futures directions de recherche incluent 
+les modèles auto-supervisés, le transfert de connaissance, et le développement 
+de réseaux de neurones plus légers et plus efficaces.
+
+## Conclusion
+En résumé, la classification d'images a beaucoup progressé grâce aux 
+CNN et aux techniques avancées. L'approche choisie pour ce projet 
+s'inspire des meilleures pratiques actuelles et vise à contribuer 
+à ce domaine en pleine évolution.
