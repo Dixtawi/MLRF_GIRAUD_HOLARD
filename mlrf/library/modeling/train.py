@@ -1,18 +1,21 @@
 import sys
 import os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'library')))
 
-import pickle
-import numpy as np
+class ModelTraining:
+    
+    def __init__(self, model, X_test, y_test):
+        self.model = model
+        self.X_test = X_test
+        self.y_test = y_test
+        self.pred = None
 
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-
-from dataset import X_train, X_test, y_train, y_test
-
-
+    def get_predictions(self):
+        self.pred = self.model.predict(self.X_test)
+        return self.pred
+    
+    def get_accuracy(self):
+        return accuracy_score(self.y_test, self.pred)
 
 # Créer le modèle Random Forest
 clf = RandomForestClassifier(n_estimators=100, random_state=42)
