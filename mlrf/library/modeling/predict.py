@@ -17,5 +17,6 @@ class ModelPerformances:
         return self.pred
     
     def get_accuracy(self):
+        self.pred = self.model.predict(self.X_test)
         return accuracy_score(self.y_test, self.pred)
         

@@ -28,6 +28,11 @@ def load_dataset(data_dir):
     x_test, y_test = load_batch(fpath)
     x_test = x_test.reshape(10000, 3, 32, 32).transpose(0, 2, 3, 1)
     y_test = np.array(y_test)
+    
+    # Normaliser les images
+    x_train = x_train.astype('float32') / 255.0
+    x_test = x_test.astype('float32') / 255.0
+
 
     return x_train, x_test, y_train, y_test
 
