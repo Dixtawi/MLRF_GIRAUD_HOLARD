@@ -39,8 +39,6 @@ format:
 	black --config pyproject.toml library
 
 
-
-
 ## Set up python interpreter environment
 .PHONY: create_environment
 create_environment:
