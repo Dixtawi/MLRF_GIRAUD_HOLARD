@@ -1,39 +1,36 @@
-import pickle
 import sys
 import os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'library')))
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 
-import numpy as np
-import cv2
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import accuracy_score
-from skimage.feature import local_binary_pattern
-
-from dataset import data, labels
-
-
-X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.2, random_state=42)
-
-# Créer le modèle Random Forest
-clf = RandomForestClassifier(random_state=42)
-
-param_grid = {
-    'n_estimators': [50, 100],
-    'max_depth': [10, 20],
-    'min_samples_split': [5, 10],
-    'min_samples_leaf': [1, 2]
-}
-
-# Configurer la recherche en grille
-grid_search = GridSearchCV(estimator=clf, param_grid=param_grid, cv=3, n_jobs=-1, verbose=2)
-
-# Entraîner la recherche en grille
-grid_search.fit(X_train, y_train)
-
-# Afficher les meilleurs hyperparamètres
-print(f'Best parameters found: {grid_search.best_params_}')
-
-# Utiliser le meilleur modèle pour prédire les étiquettes pour l'ensemble de test
-best_clf = grid_search.best_estimator_
+class HyperparamsSearch:
+    def __init__(self, hyperparams, model, verbose=0, cv=None, n_jobs=None):
+        self.hyperparams = hyperparams
+        self.model = model
+        self.verbose = verbose
+        self.cv = cv
+        self.n_jobs = n_jobs
+        
+    def set_verbose_level(self, verbose):
+        self.verbose = verbose
+        
+    def set_cv_fold(self, cv):
+        self.cv = cv
+        
+    def set_njobs(self, n_jobs):
+        self.n_jobs = n_jobs
+        
+    def grid_search(self, X_train, y_train):
+        gs = GridSearchCV(estimator=self.model, param_grid=self.hyperparams,
+                                   cv=self.cv, n_jobs=self.n_jobs, verbose=self.verbose)
+        gs.fit(X_train, y_train)
+        
+        return gs.best_estimator_, gs.best_params_
+    
+    def random_search(self):
+        rs = RandomizedSearchCV(estimator=self.model, param_grid=self.hyperparams,
+                                   cv=self.cv, n_jobs=self.n_jobs, verbose=self.verbose)
+        rs.fit(X_train, y_train)
+        
+        return rs.best_estimator_, rs.best_params_
+        

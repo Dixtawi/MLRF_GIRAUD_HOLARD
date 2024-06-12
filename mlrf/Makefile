@@ -26,6 +26,10 @@ clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
 
+.PHONY: countlines
+countlines:
+	find . -name "*.py" | xargs wc -l
+
 ## Lint using flake8 and black (use `make format` to do formatting)
 .PHONY: lint
 lint:
@@ -44,8 +48,6 @@ format:
 create_environment:
 	@bash -c "if [ ! -z `which virtualenvwrapper.sh` ]; then source `which virtualenvwrapper.sh`; mkvirtualenv $(PROJECT_NAME) --python=$(PYTHON_INTERPRETER); else mkvirtualenv.bat $(PROJECT_NAME) --python=$(PYTHON_INTERPRETER); fi"
 	@echo ">>> New virtualenv created. Activate with:\nworkon $(PROJECT_NAME)"
-	
-
 
 
 #################################################################################
