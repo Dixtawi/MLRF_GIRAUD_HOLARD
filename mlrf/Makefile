@@ -28,7 +28,7 @@ clean:
 
 .PHONY: countlines
 countlines:
-	find . -name "*.py" | xargs wc -l
+	find . \( -name "*.py" -o -name "*.ipynb" \) | xargs wc -l
 
 ## Lint using flake8 and black (use `make format` to do formatting)
 .PHONY: lint
