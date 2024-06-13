@@ -38,35 +38,27 @@ def hog_features(images):
     return hog_features_array
 
 
-def sift_features(images, max_descriptors=500):
-    """
-    Exemple d'application:
-    X_train_sift = sift_features(X_train)
-    X_test_sift = sift_features(X_test)
-    """
-    sift_features_list = []
+def sift_features(images):
     sift = cv2.SIFT_create()
-
+    all_keypoints = []
+    all_descriptors = []
+    
     for image in images:
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         keypoints, descriptors = sift.detectAndCompute(gray, None)
-        if descriptors is not None:
-            descriptors = descriptors[:max_descriptors]
-            descriptors_padded = np.zeros((max_descriptors, 128))
-            descriptors_padded[:descriptors.shape[0], :] = descriptors
-            sift_features_list.append(descriptors_padded.flatten())
-        else:
-            sift_features_list.append(np.zeros(max_descriptors * 128))
+        
+        all_keypoints.append(keypoints)
+        all_descriptors.append(descriptors)
     
-    return np.array(sift_features_list)
+    return all_keypoints, all_descriptors
 
 # ==================================================
 
-# # test
-import dataset as d
+# test
+from dataset import X_test
 import matplotlib.pyplot as plt
 
-X_test_sift = sift_features(d.X_train[:5])
+X_test_sift = sift_features(X_test[:5])
 
 print(X_test_sift[:5])
 
