@@ -1,14 +1,12 @@
 import sys
 import os
 
-
 from sklearn.metrics import accuracy_score
-from sklearn.base import clone
 
 class ModelPerformances:
     
     def __init__(self, model, X_test, y_test):
-        self.model = clone(model)
+        self.model = model
         self.X_test = X_test
         self.y_test = y_test
         self.pred = None
