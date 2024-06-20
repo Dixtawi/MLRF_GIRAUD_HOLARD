@@ -2,7 +2,7 @@ import pickle
 import sys
 import os
 import numpy as np
-from config import PROCESSED_DATA_DIR
+from config import RAW_DATA_DIR, PROCESSED_DATA_DIR
 
 def load_batch(fpath):
         import pickle
@@ -12,7 +12,8 @@ def load_batch(fpath):
             labels = d[b'labels']
             return data, labels
 
-def load_dataset(data_dir):
+def load_dataset():
+    data_dir = RAW_DATA_DIR / "cifar-10-batches-py"
     num_train_samples = 50000
 
     x_train = np.empty((num_train_samples, 32, 32, 3), dtype='uint8')
@@ -36,6 +37,8 @@ def load_dataset(data_dir):
 
     return x_train, x_test, y_train, y_test
 
-data_dir = PROCESSED_DATA_DIR / "cifar-10-batches-py"
+def save_dataset(dataset, name):
+    pickle_file_path = PROCESSED_DATA_DIR / name + ".pickle"
 
-X_train, X_test, y_train, y_test = load_dataset(data_dir)
+    with open(pickle_file_path, 'wb') as f:
+        pickle.dump(dataset, f)

@@ -42,6 +42,10 @@ lint:
 format:
 	black --config pyproject.toml library
 
+.PHONY: all
+all:
+	requirements
+
 
 ## Set up python interpreter environment
 .PHONY: create_environment
@@ -77,4 +81,4 @@ endef
 export PRINT_HELP_PYSCRIPT
 
 help:
-	@python -c "${PRINT_HELP_PYSCRIPT}" < $(MAKEFILE_LIST)
+	@python3 -c "${PRINT_HELP_PYSCRIPT}" < $(MAKEFILE_LIST)

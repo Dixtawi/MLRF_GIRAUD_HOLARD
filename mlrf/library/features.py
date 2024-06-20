@@ -52,19 +52,6 @@ def sift_features(images):
     
     return all_keypoints, all_descriptors
 
-# ==================================================
-
-# test
-from dataset import X_test
-import matplotlib.pyplot as plt
-
-X_test_sift = sift_features(X_test[:5])
-
-print(X_test_sift[:5])
-
-# ==================================================
-
-# Visualisation des points clés SIFT
 
 def visualize_sift_features(images, sift_features_list, max_descriptors=500):
     """
@@ -98,10 +85,3 @@ def visualize_sift_features(images, sift_features_list, max_descriptors=500):
         plt.axis('off')
         plt.show()
 
-# visualize_sift_features(d.X_test[:1], X_test_sift[:1])
-
-# # afficher l'image de base de x_test avec le label
-# plt.imshow(d.X_test[0])
-# plt.title(d.y_test[0])
-# plt.axis('off')
-# plt.show()
