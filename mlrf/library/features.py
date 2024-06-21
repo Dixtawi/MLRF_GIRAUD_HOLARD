@@ -37,51 +37,28 @@ def hog_features(images):
     
     return hog_features_array
 
-
-def sift_features(images):
-    sift = cv2.SIFT_create()
-    all_keypoints = []
-    all_descriptors = []
+def hoc_features(images):
+    """
+    Exemple d'application:
+    X_train_hoc = hoc_features(X_train)
+    X_test_hoc = hoc_features(X_test)
+    """
+    all_histograms = []
     
     for image in images:
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        keypoints, descriptors = sift.detectAndCompute(gray, None)
-        
-        all_keypoints.append(keypoints)
-        all_descriptors.append(descriptors)
+        if image.ndim == 3 and image.shape[2] == 3:
+            b, g, r = cv2.split(image)
+        elif image.ndim == 2:
+            b = g = r = image
+        else:
+            raise ValueError("Unsupported image format. Expected 2D or 3-channel (BGR) image.")
+
+        hist_b = cv2.calcHist([b], [0], None, [256], [0, 256])
+        hist_g = cv2.calcHist([g], [0], None, [256], [0, 256])
+        hist_r = cv2.calcHist([r], [0], None, [256], [0, 256])
+
+        hoc_features = np.concatenate((hist_b.flatten(), hist_g.flatten(), hist_r.flatten()))
+        hoc_features /= np.sum(hoc_features)
+        all_histograms.append(hoc_features)
     
-    return all_keypoints, all_descriptors
-
-
-def visualize_sift_features(images, sift_features_list, max_descriptors=500):
-    """
-    Visualise les points clés SIFT détectés sur l'image originale.
-
-    Parameters:
-    images (numpy array): Le groupe d'images original.
-    sift_features_list (list): La liste des descripteurs SIFT aplatis.
-    max_descriptors (int): Nombre maximum de descripteurs à utiliser pour chaque image.
-
-    Returns:
-    None
-    """
-    sift = cv2.SIFT_create()
-
-    for i, image in enumerate(images[:5]):  # Limiter à 5 images pour visualisation
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        keypoints, descriptors = sift.detectAndCompute(gray, None)
-
-        # Limiter le nombre de points clés à max_descriptors
-        if keypoints:
-            keypoints = keypoints[:max_descriptors]
-
-        # Dessiner les points clés sur l'image
-        img_with_keypoints = cv2.drawKeypoints(image, keypoints, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-
-        # Afficher l'image avec les points clés
-        plt.figure(figsize=(10, 10))
-        plt.title(f"SIFT Features for Image {i+1}")
-        plt.imshow(cv2.cvtColor(img_with_keypoints, cv2.COLOR_BGR2RGB))
-        plt.axis('off')
-        plt.show()
-
+    return np.array(all_histograms)
