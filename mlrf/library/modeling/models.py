@@ -9,6 +9,7 @@ from config import MODELS_DIR
 models = {
     'RandomForestClassifier': RandomForestClassifier(),
     'LogisticRegression': LogisticRegression(multi_class='multinomial', max_iter=1000),
+    'SGDClassifier': SGDClassifier(),
     'SVM': SVC()
 }
 
